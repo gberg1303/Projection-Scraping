@@ -4,7 +4,7 @@
 ###
 
 ### Set Working Directory in case of different folder
-setwd("/Users/jonathangoldberg/Google Drive/Random/Sports/Fantasy Football/Projection Scraping")
+setwd()
 
 ### Load the Functions
 source(paste0(getwd(), '/Projections_Main.R'))
@@ -16,9 +16,7 @@ Fantasy_Football_Projections(sources = c("CBS", "ESPN", "FantasySharks", "Sleepe
 print("Be Careful to save in correct folder")
 
 ### Save for Easy Load
-setwd("/Users/jonathangoldberg/Google Drive/Random/Sports/Fantasy Football/Draft Day")
 write_csv(Fantasy_Projections, "Fantasy Projections 2019.csv")
 
 ### Save for Posterity
-setwd("/Users/jonathangoldberg/Google Drive/Random/Sports/Fantasy Football/2019-2020/Projections")
 write_csv(Fantasy_Projections, "Fantasy Season Projections 2019.csv")
