@@ -15,7 +15,7 @@ rb_cbs <- readHTMLTable(rb_cbs, stringsAsFactors = FALSE)$`NULL`
 wr_cbs <- getURL(paste0("https://www.cbssports.com/fantasy/football/stats/WR/",season,"/season/projections/ppr/"))
 wr_cbs <- readHTMLTable(wr_cbs, stringsAsFactors = FALSE)$`NULL`
  #wr_cbs <- unlist(wr_cbs)
-te_cbs <- getURL(paste0("https://www.cbssports.com/fantasy/football/stats/TE/"season,"/season/projections/ppr/"))
+te_cbs <- getURL(paste0("https://www.cbssports.com/fantasy/football/stats/TE/",season,"/season/projections/ppr/"))
 te_cbs <- readHTMLTable(te_cbs, stringsAsFactors = FALSE)$`NULL`
  #te_cbs <- unlist(te_cbs)
 k_cbs <- getURL(paste0("https://www.cbssports.com/fantasy/football/stats/K/",season,"/season/projections/ppr/"))

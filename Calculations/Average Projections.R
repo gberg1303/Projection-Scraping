@@ -1,4 +1,8 @@
 library(tidyverse)
+### Filter Out 0 Projections
+Combined_Projections <- Combined_Projections %>%
+  filter(Individual.Fantasy.Points > 0)
+
 ### Remove CBS if week changes
 if(sources == "CBS"){
 if(week == 0){if(max(Combined_Projections %>% filter(Platform == "CBS") %>% select(Individual.Fantasy.Points)) < 100){Combined_Projections <- Combined_Projections %>% filter(Platform != "CBS")}}

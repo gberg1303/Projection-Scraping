@@ -8,7 +8,7 @@ if(week > 0){week_no <- paste0(week)}
 
 ### Draft Scrape
 if(week == 0){
-Sleeper_JSON <- list(fromJSON("https://api.sleeper.app/projections/nfl/2019?season_type=regular&position[]=QB&position[]=RB&position[]=WR&position[]=TE&position[]=K&position[]=DEF&order_by=adp_ppr"))
+Sleeper_JSON <- list(fromJSON(paste0("https://api.sleeper.app/projections/nfl/", season, "?season_type=regular&position[]=QB&position[]=RB&position[]=WR&position[]=TE&position[]=K&position[]=DEF&order_by=adp_ppr")))
 
 
 Sleeper_Projections <- data.frame(
@@ -65,7 +65,7 @@ rm(Sleeper_JSON)
 
 ### Weekly Scrape
 if(week > 0){
-  Sleeper_JSON <- list(fromJSON(paste0("https://api.sleeper.app/projections/nfl/2019/", week_no,"?season_type=regular&position%5B%5D=QB&position%5B%5D=RB&position%5B%5D=WR&position%5B%5D=TE&position%5B%5D=K&position%5B%5D=DEF&order_by=adp_ppr")))
+  Sleeper_JSON <- list(fromJSON(paste0("https://api.sleeper.app/projections/nfl/", season, "/", week_no,"?season_type=regular&position%5B%5D=QB&position%5B%5D=RB&position%5B%5D=WR&position%5B%5D=TE&position%5B%5D=K&position%5B%5D=DEF&order_by=adp_ppr")))
   
   Sleeper_Projections <- data.frame(
     "Platform" = c("Sleeper"),

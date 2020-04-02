@@ -4,7 +4,7 @@ ifelse(sources == "CBS",Combined_Projections <- smartbind(Combined_Projections, 
 ifelse(sources == "ESPN", Combined_Projections <- smartbind(Combined_Projections, ESPN_Projections), print(0))
 ifelse(sources == "Sleeper", Combined_Projections <- smartbind(Combined_Projections, Sleeper_Projections), print(0))
 ifelse(sources == "FantasySharks", Combined_Projections <- smartbind(Combined_Projections, FantasySharks_Projections), print(0))
-ifelse(sources == "Yahoo", Combined_Projections <- smartbind(Combined_Projections, Yahoo_Projections), print(0))
+ifelse(sources == "Yahoo", Combined_Projections <- smartbind(Combined_Projections, Yahoo_Projections), Combined_Projections <- Combined_Projections %>% mutate(Bye = "Need Yahoo Projections"))
 ifelse(sources == "FantasyPros", Combined_Projections <- smartbind(Combined_Projections, FantasyPros_Projections), print(0))
 ifelse(sources == "NFL", Combined_Projections <- smartbind(Combined_Projections, NFL_Projections), print(0))
 
@@ -19,6 +19,7 @@ Combined_Projections$Player <- str_replace_all(Combined_Projections$Player, "Jr.
 Combined_Projections$Player <- str_replace_all(Combined_Projections$Player, "Sr.", "")
 Combined_Projections$Player <- str_replace_all(Combined_Projections$Player, "IV ", " ")
 Combined_Projections$Player <- str_replace_all(Combined_Projections$Player, "V ", " ")
+Combined_Projections$Player <- str_replace_all(Combined_Projections$Player, "É", "E")
 
 ### Trim White Space One Last Time
 Combined_Projections$Player <- sub("^\\s*(\\S+\\s+\\S+).*", "\\1", Combined_Projections$Player) ## Clear everything after the second space 
@@ -46,3 +47,11 @@ Combined_Projections$FGM.50. <- as.numeric(Combined_Projections$FGM.50.)
 ### Change Mitchell Trubisky
 Combined_Projections <- as.data.table(Combined_Projections)
 Combined_Projections[which(Combined_Projections$Player == "MITCH TRUBISKY"), Player := "MITCHELL TRUBISKY"]
+
+### Clean Team Names
+Combined_Projections <- Combined_Projections %>%
+  mutate(Team = gsub("OAK", "LV", Team),
+         Team = gsub("LVR", "LV", Team),
+         Team = gsub("ARZ", "ARI", Team))
+
+
