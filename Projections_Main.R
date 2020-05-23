@@ -12,7 +12,8 @@ library(lpSolveAPI)
 
 ### Create the main function.
     # Week = 0 Implies the Preseason Draft Rankikngs
-Fantasy_Football_Projections <- function(sources = c("CBS", "ESPN", "FantasySharks", "Sleeper", "Yahoo", "FantasyPros", "NFL"), Week, Season, Scoring = c("PPR", "Standard", "Custom"), VOR = c("Standard", "Custom"), MaxBid = FALSE, Keep.Platform.Projections = FALSE, Proper.Floors = FALSE) {
+Fantasy_Football_Projections <- function(sources = c("CBS", "ESPN", "FantasySharks", "Sleeper", "Yahoo", "FantasyPros", "NFL"), Week, Season, Scoring = c("PPR", "Standard", "Half", "Custom"), VOR = c("Standard", "Custom"), MaxBid = FALSE, Keep.Platform.Projections = FALSE, Proper.Floors = FALSE,
+                                         Predictions = FALSE) {
   
 ### Set Week and Season and Scoring Setting
   assign("sources", sources, envir = .GlobalEnv)
@@ -23,10 +24,11 @@ Fantasy_Football_Projections <- function(sources = c("CBS", "ESPN", "FantasyShar
   assign("MaxBid", MaxBid, envir = .GlobalEnv)
   assign("Keep.Platform.Projections", Keep.Platform.Projections, envir = .GlobalEnv)
   assign("Proper.Floors", Proper.Floors, envir = .GlobalEnv)
+  assign("Predictions", Predictions, envir = .GlobalEnv)
   
 ### Source the Projection Files
   ifelse(sources == "CBS", source(paste0(getwd(), '/Scraping Scripts/CBS Projections v1.R'), echo=TRUE), print(sources))
-  ifelse(sources == "ESPN", source(paste0(getwd(), '/Scraping Scripts/ESPN Projections v1.R'), echo=TRUE), print(sources))
+  ifelse(sources == "ESPN" | Proper.Floors == TRUE, source(paste0(getwd(), '/Scraping Scripts/ESPN Projections v1.R'), echo=TRUE), print(sources))
   ifelse(sources == "FantasySharks", source(paste0(getwd(), '/Scraping Scripts/FantasySharks Projections v1.R'), echo=TRUE), print(sources))
   ifelse(sources == "Sleeper", source(paste0(getwd(), '/Scraping Scripts/Sleeper Projections v1.R'), echo=TRUE), print(sources))
   ifelse(sources == "Yahoo", source(paste0(getwd(), '/Scraping Scripts/Yahoo Projections v1.R'), echo=TRUE), print(sources))
@@ -36,7 +38,7 @@ Fantasy_Football_Projections <- function(sources = c("CBS", "ESPN", "FantasyShar
 ### Load Settings
 source(paste0(getwd(), '/Scoring Settings.R'), echo=TRUE)
 source(paste0(getwd(), '/Value Over Replacement Settings.R'), echo=TRUE)
-  
+
 ### Combine the Projections and Clean Combined Projections
 source(paste0(getwd(), '/File Management/Clean Combined Projections.R'), echo=TRUE)
 
@@ -63,6 +65,9 @@ ifelse(MaxBid == TRUE, source(paste0(getwd(), '/Calculations/Bid Up To.R')), pri
   
 ### Condense and Finish
 source(paste0(getwd(), '/File Management/Finalize Projections.R'), echo=TRUE)
+
+### Create Projections
+if(Predictions == TRUE & week == 0){source(paste0(getwd(), '/Calculations/Odds Prediction.R'))}
 
 ### Remove the Extras
 source(paste0(getwd(), '/File Management/Remove Values.R'), echo=TRUE)

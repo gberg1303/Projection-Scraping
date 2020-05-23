@@ -39,7 +39,7 @@ if(nrow(espn_stat_projections_player) == 0){espn_stat_projections_player <- add_
 players <- as.numeric(length(espn_stat_projections))
 for(i in 2:players) { 
   espn_stat_projections_placeholder <- data.frame(espn_stat_projections[[i]])
-  if(is_empty(espn_stat_projections_placeholder) == TRUE & nrow(ESPN_Projections) > 1040){espn_stat_projections_placeholder <- data.frame(matrix(ncol = 10, nrow = 1))
+  if(is_empty(espn_stat_projections_placeholder) == TRUE & nrow(ESPN_Projections) > 1000){espn_stat_projections_placeholder <- data.frame(matrix(ncol = 10, nrow = 1))
   colnames(espn_stat_projections_placeholder) <- colnames(espn_stat_projections_placeholder_placeholder)
   espn_stat_projections_placeholder$id <- paste(week_no)}
   espn_stat_projections_placeholder <- cbind(espn_stat_projections_placeholder, espn_stat_projections_placeholder$stats)
@@ -76,7 +76,7 @@ espn_stat_projections <- data.frame(
   "Defensive Touchdowns" = espn_stat_projections_player$`105`,
   "Points Allowed" = espn_stat_projections_player$`120`,
   "Yards Allowed" = espn_stat_projections_player$`127`
-                         )
+)
 
 ### Put Everything Together
 ESPN_Projections <- cbind(ESPN_Projections, espn_stat_projections)

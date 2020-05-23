@@ -13,7 +13,7 @@ rankings_fp <- rankings_fp %>%
   filter(is.na(V3) != TRUE) %>%
   filter(is.na(V9) != TRUE) %>%
   select(V3, V9) %>%
-  rename(Player = V3,
+  dplyr::rename(Player = V3,
          Risk = V9) %>%
   mutate(Risk = as.numeric(Risk))
 substrRight <- function(x, n){
@@ -137,11 +137,11 @@ rm(Risk_Ceiling.Floor)
 for(player in players){
   Confidence_Intervals <- Combined_Projections %>%
     filter(paste(Player, Position, Team) == paste(player))
-  if(nrow(Confidence_Intervals) < 2){
+   if(nrow(Confidence_Intervals) < 2){
     Ceiling.Fantasy.Points <- as.numeric(NA)
     Floor.Fantasy.Points <- as.numeric(NA)
   }
-  if(nrow(Confidence_Intervals) >= 2 & sum(Confidence_Intervals$Individual.Fantasy.Points) > 0 & (Confidence_Intervals$Individual.Fantasy.Points) != Confidence_Intervals$Individual.Fantasy.Points){
+  if(nrow(Confidence_Intervals) >= 2 & sum(Confidence_Intervals$Individual.Fantasy.Points) > 0 & mean(Confidence_Intervals$Individual.Fantasy.Points) != Confidence_Intervals$Individual.Fantasy.Points[1]){
     Floor.Fantasy.Points <- boot.ci(one.boot(Confidence_Intervals$Individual.Fantasy.Points, mean, R = 1000), type=c("perc", "bca"), conf = .99)[["bca"]][4]
     Ceiling.Fantasy.Points <- boot.ci(one.boot(Confidence_Intervals$Individual.Fantasy.Points, mean, R = 1000), type=c("perc", "bca"), conf = .99)[["bca"]][5]
   }
@@ -149,7 +149,7 @@ for(player in players){
     Ceiling.Fantasy.Points <- as.numeric(NA)
     Floor.Fantasy.Points <- as.numeric(NA)
   }
-  if(mean(Confidence_Intervals$Individual.Fantasy.Points) == Confidence_Intervals$Individual.Fantasy.Points){
+  if(Confidence_Intervals$Individual.Fantasy.Points[1] == mean(Confidence_Intervals$Individual.Fantasy.Points)){
     Ceiling.Fantasy.Points <- as.numeric(NA)
     Floor.Fantasy.Points <- as.numeric(NA)
   }

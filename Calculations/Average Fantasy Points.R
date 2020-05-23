@@ -1,7 +1,7 @@
 library(tidyverse)
 
 ### Make NA's Zero
-Fantasy_Points <- Average_Fantasy_Projections
+Fantasy_Points <- Average_Fantasy_Projections %>% mutate(Position = ifelse(is.na(Position) == TRUE, "NA", Position))
 Fantasy_Points[is.na(Fantasy_Points)] <- 0
 
 
@@ -99,6 +99,38 @@ if(Scoring == "Custom"){
       (Fantasy_Points$Points.Allowed*Custom[["dst"]][["Points.Allowed"]])+
       (Fantasy_Points$Yards.Allowed*Custom[["dst"]][["Yards.Allowed"]])+
       (Fantasy_Points$Safeties*Custom[["dst"]][["Safeties"]])
+  )
+}
+
+if(Scoring == "Half"){
+  Fantasy_Points$Average.Fantasy.Points <- (
+    (Fantasy_Points$Passing.Yards*Half[["pass"]][["Passing.Yards"]]) +
+      (Fantasy_Points$Completions*Half[["pass"]][["Completions"]]) +
+      (Fantasy_Points$Passing.Touchdowns*Half[["pass"]][["Passing.Touchdowns"]]) +
+      (Fantasy_Points$Interceptions*Half[["pass"]][["Interceptions"]]) +
+      (Fantasy_Points$Pass.Attempts*Half[["pass"]][["Pass.Attempts"]]) +
+      (Fantasy_Points$Rushing.Yards*Half[["rush"]][["Rushing.Yards"]])+
+      (Fantasy_Points$Carries*Half[["rush"]][["Carries"]])+
+      (Fantasy_Points$Rushing.Touchdowns*Half[["rush"]][["Rushing.Touchdowns"]])+
+      (Fantasy_Points$Fumbles.Lost*Half[["misc"]][["Fumbles.Lost"]])+
+      (Fantasy_Points$Receptions*Half[["rec"]][["Receptions"]])+
+      (Fantasy_Points$Receiving.Yards*Half[["rec"]][["Receiving.Yards"]])+
+      (Fantasy_Points$Receiving.Touchdowns*Half[["rec"]][["Receiving.Touchdowns"]])+
+      (Fantasy_Points$FGM.1_39*Half[["kick"]][["FGM.1_39"]])+
+      (Fantasy_Points$FGM.40_49*Half[["kick"]][["FGM.40_49"]])+
+      (Fantasy_Points$FGM.50.*Half[["kick"]][["FGM.50."]])+
+      (Fantasy_Points$Field.Goals.Missed*Half[["kick"]][["Field.Goals.Missed"]])+
+      (Fantasy_Points$Extra.Points.Missed*Half[["kick"]][["Extra.Points.Missed"]])+
+      (Fantasy_Points$FGM.XP*Half[["kick"]][["FGM.XP"]])+
+      (Fantasy_Points$Return.Touchdowns*Half[["ret"]][["Return.Touchdowns"]])+
+      (Fantasy_Points$`2PT.Conversion`*Half[["misc"]][["2PT.Conversion"]])+
+      (Fantasy_Points$Sacks*Half[["dst"]][["Sacks"]])+
+      (Fantasy_Points$Defensive.Interceptions*Half[["dst"]][["Defensive.Interceptions"]])+
+      (Fantasy_Points$Fumbles.Recovered*Half[["dst"]][["Fumbles.Recovered"]])+
+      (Fantasy_Points$Defensive.Touchdowns*Half[["dst"]][["Defensive.Touchdowns"]])+
+      (Fantasy_Points$Points.Allowed*Half[["dst"]][["Points.Allowed"]])+
+      (Fantasy_Points$Yards.Allowed*Half[["dst"]][["Yards.Allowed"]])+
+      (Fantasy_Points$Safeties*Half[["dst"]][["Safeties"]])
   )
 }
 

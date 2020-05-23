@@ -101,6 +101,70 @@ if(Scoring == "Custom"){
   )
 }
 
+if(Scoring == "Standard"){
+  Fantasy_Points$Individual.Fantasy.Points <- (
+    (Fantasy_Points$Passing.Yards*Standard[["pass"]][["Passing.Yards"]]) +
+      (Fantasy_Points$Completions*Standard[["pass"]][["Completions"]]) +
+      (Fantasy_Points$Passing.Touchdowns*Standard[["pass"]][["Passing.Touchdowns"]]) +
+      (Fantasy_Points$Interceptions*Standard[["pass"]][["Interceptions"]]) +
+      (Fantasy_Points$Pass.Attempts*Standard[["pass"]][["Pass.Attempts"]]) +
+      (Fantasy_Points$Rushing.Yards*Standard[["rush"]][["Rushing.Yards"]])+
+      (Fantasy_Points$Carries*Standard[["rush"]][["Carries"]])+
+      (Fantasy_Points$Rushing.Touchdowns*Standard[["rush"]][["Rushing.Touchdowns"]])+
+      (Fantasy_Points$Fumbles.Lost*Standard[["misc"]][["Fumbles.Lost"]])+
+      (Fantasy_Points$Receptions*Standard[["rec"]][["Receptions"]])+
+      (Fantasy_Points$Receiving.Yards*Standard[["rec"]][["Receiving.Yards"]])+
+      (Fantasy_Points$Receiving.Touchdowns*Standard[["rec"]][["Receiving.Touchdowns"]])+
+      (Fantasy_Points$FGM.1_39*Standard[["kick"]][["FGM.1_39"]])+
+      (Fantasy_Points$FGM.40_49*Standard[["kick"]][["FGM.40_49"]])+
+      (Fantasy_Points$FGM.50.*Standard[["kick"]][["FGM.50."]])+
+      (Fantasy_Points$Field.Goals.Missed*Standard[["kick"]][["Field.Goals.Missed"]])+
+      (Fantasy_Points$Extra.Points.Missed*Standard[["kick"]][["Extra.Points.Missed"]])+
+      (Fantasy_Points$FGM.XP*Standard[["kick"]][["FGM.XP"]])+
+      (Fantasy_Points$Return.Touchdowns*Standard[["ret"]][["Return.Touchdowns"]])+
+      (Fantasy_Points$`2PT.Conversion`*Standard[["misc"]][["2PT.Conversion"]])+
+      (Fantasy_Points$Sacks*Standard[["dst"]][["Sacks"]])+
+      (Fantasy_Points$Defensive.Interceptions*Standard[["dst"]][["Defensive.Interceptions"]])+
+      (Fantasy_Points$Fumbles.Recovered*Standard[["dst"]][["Fumbles.Recovered"]])+
+      (Fantasy_Points$Defensive.Touchdowns*Standard[["dst"]][["Defensive.Touchdowns"]])+
+      (Fantasy_Points$Points.Allowed*Standard[["dst"]][["Points.Allowed"]])+
+      (Fantasy_Points$Yards.Allowed*Standard[["dst"]][["Yards.Allowed"]])+
+      (Fantasy_Points$Safeties*Standard[["dst"]][["Safeties"]])
+  )
+}
+
+if(Scoring == "Half"){
+  Fantasy_Points$Individual.Fantasy.Points <- (
+      (Fantasy_Points$Passing.Yards*Half[["pass"]][["Passing.Yards"]]) +
+      (Fantasy_Points$Completions*Half[["pass"]][["Completions"]]) +
+      (Fantasy_Points$Passing.Touchdowns*Half[["pass"]][["Passing.Touchdowns"]]) +
+      (Fantasy_Points$Interceptions*Half[["pass"]][["Interceptions"]]) +
+      (Fantasy_Points$Pass.Attempts*Half[["pass"]][["Pass.Attempts"]]) +
+      (Fantasy_Points$Rushing.Yards*Half[["rush"]][["Rushing.Yards"]])+
+      (Fantasy_Points$Carries*Half[["rush"]][["Carries"]])+
+      (Fantasy_Points$Rushing.Touchdowns*Half[["rush"]][["Rushing.Touchdowns"]])+
+      (Fantasy_Points$Fumbles.Lost*Half[["misc"]][["Fumbles.Lost"]])+
+      (Fantasy_Points$Receptions*Half[["rec"]][["Receptions"]])+
+      (Fantasy_Points$Receiving.Yards*Half[["rec"]][["Receiving.Yards"]])+
+      (Fantasy_Points$Receiving.Touchdowns*Half[["rec"]][["Receiving.Touchdowns"]])+
+      (Fantasy_Points$FGM.1_39*Half[["kick"]][["FGM.1_39"]])+
+      (Fantasy_Points$FGM.40_49*Half[["kick"]][["FGM.40_49"]])+
+      (Fantasy_Points$FGM.50.*Half[["kick"]][["FGM.50."]])+
+      (Fantasy_Points$Field.Goals.Missed*Half[["kick"]][["Field.Goals.Missed"]])+
+      (Fantasy_Points$Extra.Points.Missed*Half[["kick"]][["Extra.Points.Missed"]])+
+      (Fantasy_Points$FGM.XP*Half[["kick"]][["FGM.XP"]])+
+      (Fantasy_Points$Return.Touchdowns*Half[["ret"]][["Return.Touchdowns"]])+
+      (Fantasy_Points$`2PT.Conversion`*Half[["misc"]][["2PT.Conversion"]])+
+      (Fantasy_Points$Sacks*Half[["dst"]][["Sacks"]])+
+      (Fantasy_Points$Defensive.Interceptions*Half[["dst"]][["Defensive.Interceptions"]])+
+      (Fantasy_Points$Fumbles.Recovered*Half[["dst"]][["Fumbles.Recovered"]])+
+      (Fantasy_Points$Defensive.Touchdowns*Half[["dst"]][["Defensive.Touchdowns"]])+
+      (Fantasy_Points$Points.Allowed*Half[["dst"]][["Points.Allowed"]])+
+      (Fantasy_Points$Yards.Allowed*Half[["dst"]][["Yards.Allowed"]])+
+      (Fantasy_Points$Safeties*Half[["dst"]][["Safeties"]])
+  )
+}
+
 ### Bind Scoring to Combined Projections
 Combined_Projections$Individual.Fantasy.Points <- Fantasy_Points$Individual.Fantasy.Points
 rm(Fantasy_Points)
