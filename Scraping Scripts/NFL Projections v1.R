@@ -87,3 +87,4 @@ if(week > 0){NFL_Projections[,5:22] <- as.numeric(unlist(NFL_Projections[,5:22])
 
 ### End Draft Scraping
 rm(pages, nfl_proj, nfl_proj_placeholder, nfl_proj_url)
+

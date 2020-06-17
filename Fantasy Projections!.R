@@ -10,7 +10,17 @@ setwd()
 source(paste0(getwd(), '/Projections_Main.R'))
 
 ### Run the Function: Fantasy_Football_Projections(): Week = 0 implies the draft
-Fantasy_Football_Projections(sources = c("CBS", "ESPN", "FantasySharks", "Sleeper", "Yahoo", "FantasyPros", "NFL"), Week = 4, Season = 2019, Scoring = "PPR", VOR = "Standard", MaxBid = FALSE, Keep.Platform.Projections = TRUE, Proper.Floors = TRUE)
+##### Season Projections
+Fantasy_Football_Projections(sources = c(
+  "FantasySharks",
+  "CBS", 
+  "ESPN", 
+  "Sleeper", 
+  #"Yahoo", # Yahoo normally posts their projectiosn quite late
+  "FantasyPros", 
+  "NFL"), Week = 0, Season = 2020, 
+  Scoring = "Half", VOR = "Standard", MaxBid = FALSE, Keep.Platform.Projections = TRUE, Proper.Floors = TRUE, Predictions = TRUE)
+
 
 ### Be Careful to save in correct folder 
 print("Be Careful to save in correct folder")
