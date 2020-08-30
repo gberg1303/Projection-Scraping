@@ -4,7 +4,7 @@ ifelse(sources == "CBS",Combined_Projections <- smartbind(Combined_Projections, 
 ifelse(sources == "ESPN", Combined_Projections <- smartbind(Combined_Projections, ESPN_Projections), print(0))
 ifelse(sources == "Sleeper", Combined_Projections <- smartbind(Combined_Projections, Sleeper_Projections), print(0))
 ifelse(sources == "FantasySharks", Combined_Projections <- smartbind(Combined_Projections, FantasySharks_Projections), print(0))
-ifelse(sources == "Yahoo", Combined_Projections <- smartbind(Combined_Projections, Yahoo_Projections), Combined_Projections <- Combined_Projections %>% mutate(Bye = "Need Yahoo Projections"))
+ifelse(sources == "Yahoo", Combined_Projections <- smartbind(Combined_Projections, Yahoo_Projections), print(0))
 ifelse(sources == "FantasyPros", Combined_Projections <- smartbind(Combined_Projections, FantasyPros_Projections), print(0))
 ifelse(sources == "NFL", Combined_Projections <- smartbind(Combined_Projections, NFL_Projections), print(0))
 
@@ -52,6 +52,7 @@ Combined_Projections[which(Combined_Projections$Player == "MITCH TRUBISKY"), Pla
 Combined_Projections <- Combined_Projections %>%
   mutate(Team = gsub("OAK", "LV", Team),
          Team = gsub("LVR", "LV", Team),
-         Team = gsub("ARZ", "ARI", Team))
+         Team = gsub("ARZ", "ARI", Team),
+         Team = gsub("JAC", "JAX", Team))
 
 

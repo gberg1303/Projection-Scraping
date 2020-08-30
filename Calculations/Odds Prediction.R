@@ -73,12 +73,7 @@ Boot_Outcomes <- Boot_Outcomes %>%
   mutate(Position.Rank = order(order(Fantasy.Points, decreasing=TRUE)))
   
 ### Set Replacements
-qbReplacements <- 13
-rbReplacements <- 35
-wrReplacements <- 36
-teReplacements <- 10
-kReplacements <- 8
-dstReplacements <- 3
+source(paste0(getwd(), '/Value Over Replacement Settings.R'), echo=TRUE)
 
 ### Get the Value of the Replacement
 qbValueOfReplacement <- mean(c(Boot_Outcomes$Fantasy.Points[which(Boot_Outcomes$Position == "QB" & Boot_Outcomes$Position.Rank == qbReplacements)], Boot_Outcomes$Fantasy.Points[which(Boot_Outcomes$Position == "QB" & Boot_Outcomes$Position.Rank == qbReplacements-1)], Boot_Outcomes$Fantasy.Points[which(Boot_Outcomes$Position == "QB" & Boot_Outcomes$Position.Rank == qbReplacements+1)]))
@@ -222,8 +217,27 @@ Player_Predictions <- Player_Predictions %>%
   select(Player, Team, Position, Projection_Type, Projection) %>%
   unique() %>%
   reshape2::dcast(Player + Team + Position ~ Projection_Type, value.var="Projection") %>%
-  merge(x = ., y = Preseason_Projections %>% select(Player, Team, Position, Average.Draft.Position, Average.Auction.Value, Cost, Bye, Position.Rank, Tier, Dropoff, VoR), by = c("Player", "Team", "Position"), all.x = TRUE) %>%
-  select(Player, Team, Position, Average.Draft.Position, Average.Auction.Value, Cost, Bye, Position.Rank, Tier, Dropoff, VoR,
+  merge(x = ., y = Preseason_Projections %>% select(Player, Team, Position, Average.Draft.Position, Average.Auction.Value, Cost, Bye, Position.Rank, Tier, Dropoff, Opportunities, Touches, VoR), by = c("Player", "Team", "Position"), all.x = TRUE) %>%
+  mutate(Bin = case_when(
+    Position.Rank %in% 1:12 & Position == "WR" | Position.Rank %in% 1:12 & Position ==  "RB" ~ "1:12",
+    Position.Rank %in% 1:5 & Position == "QB" | Position.Rank %in% 1:5 & Position ==  "TE" ~ "1:12",
+    Position.Rank %in% 13:14 ~ "13:14",
+    Position.Rank %in% 15:15 ~ "15:15",
+    Position.Rank %in% 16:20 ~ "16:20",
+    Position.Rank %in% 21:25 ~ "21:25",
+    Position.Rank %in% 26:30 ~ "26:30",
+    Position.Rank %in% 31:35 ~ "31:35",
+    Position.Rank %in% 36:40 ~ "36:40",
+    Position.Rank %in% 41:20000 ~ "41:20000",
+  )) %>%
+  group_by(Position, Bin) %>%
+  mutate(boom.vor = mean(VoR, na.rm = TRUE)) %>%
+  ungroup() %>%
+  group_by(Position) %>%
+  mutate(boom.vor = max(boom.vor)) %>%
+  ungroup() %>%
+  mutate(Expected.Boom.VoR = ifelse(Position == "WR" | Position ==  "RB", boom.vor*(Finished.Top.15+Finished.Top.10)/2, boom.vor*(Finished.Top.5))) %>%
+  select(Player, Team, Position, Average.Draft.Position, Average.Auction.Value, Cost, Bye, Position.Rank, Tier, Dropoff, Opportunities, Touches, VoR, Expected.Boom.VoR,
          Finished.Top.5, Finished.Top.10, Finished.Top.15, Finished.Top.20, Finished.Top.25, Finished.Top.30, Finished.Top.35, Finished.Top.40,
          Finished.1.5, Finished.6.10, Finished.11.15, Finished.16.20, Finished.21.25, Finished.26.30, Finished.31.35, Finished.36.40, Finished.Above.40) %>%
   mutate_if(is.numeric, round, 2)

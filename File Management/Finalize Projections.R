@@ -11,15 +11,17 @@ Fantasy_Projections <- as.data.table(Fantasy_Projections)
 ifelse(MaxBid == TRUE,
   Fantasy_Projections <- Fantasy_Projections %>%
     mutate(Opportunities = (Pass.Attempts + Carries + Targets), 
+           Touches = Carries + Receptions,
            Value.Per.Opportunity = (VoR/Opportunities), 
            Fantasy.Points = Average.Fantasy.Points) %>%
-    select(id, Player, Team, Position, Bye, Average.Auction.Value, Cost, Max.Bid, Average.Draft.Position, Games.Played, Opportunities, Tier, Value.Rank, VoR, Ceiling.VoR, Floor.VoR, Dropoff,
+    select(id, Player, Team, Position, Bye, Average.Auction.Value, Cost, Max.Bid, Average.Draft.Position, Games.Played, Opportunities, Touches, Tier, Value.Rank, VoR, Ceiling.VoR, Floor.VoR, Dropoff,
            Risk, Position.Rank, Fantasy.Points, Ceiling.Fantasy.Points, Floor.Fantasy.Points),
   Fantasy_Projections <- Fantasy_Projections %>%
-    mutate(Opportunities = (Pass.Attempts + Carries + Targets), 
+    mutate(Opportunities = (Pass.Attempts + Carries + Targets),
+           Touches = Carries + Receptions,
            Value.Per.Opportunity = (VoR/Opportunities), 
            Fantasy.Points = Average.Fantasy.Points) %>%
-    select(id, Player, Team, Position, Bye, Average.Auction.Value, Cost, Average.Draft.Position, Games.Played, Opportunities, Tier, Value.Rank, VoR, Ceiling.VoR, Floor.VoR, Dropoff,
+    select(id, Player, Team, Position, Bye, Average.Auction.Value, Cost, Average.Draft.Position, Games.Played, Opportunities, Touches, Tier, Value.Rank, VoR, Ceiling.VoR, Floor.VoR, Dropoff,
            Risk, Position.Rank, Fantasy.Points, Ceiling.Fantasy.Points, Floor.Fantasy.Points))
 
 ### Reorder the file

@@ -21,8 +21,11 @@ projections_FantasySharks$Name <- trimws(projections_FantasySharks$Name)
 projections_FantasySharks$Name <- sub("^\\s*(\\S+\\s+\\S+).*", "\\1", projections_FantasySharks$Name) ## Clear everything after the second space
 
 ### Change Column Names
-if(week == 0){colnames(projections_FantasySharks) <- c("Projected.Rank", "Average.Draft.Position", "FantasySharks.ID", "Player", "Position", "Team", "Bye", "Completions", "Passing.Yards", "Passing.Touchdowns", "Interceptions", "Carries", 
+if(week == 0 & length(projections_FantasySharks) == 23){colnames(projections_FantasySharks) <- c("Projected.Rank", "Average.Draft.Position", "FantasySharks.ID", "Player", "Position", "Team", "Bye", "Completions", "Passing.Yards", "Passing.Touchdowns", "Interceptions", "Carries", 
                                          "Rushing.Yards", "Rushing.Touchdowns", "Fumbles.Lost", "Receptions", "Receiving.Yards", "Receiving.Touchdowns", "Fantasy.Points", "Average.Auction.Value", "FGM.XP", "Field.Goals.Made", "Field.Goals.Missed")}
+if(week == 0 & length(projections_FantasySharks) == 22){colnames(projections_FantasySharks) <- c("Projected.Rank", "Average.Draft.Position", "FantasySharks.ID", "Player", "Position", "Team", "Bye", "Completions", "Passing.Yards", "Passing.Touchdowns", "Interceptions", "Carries", 
+                                                                                                 "Rushing.Yards", "Rushing.Touchdowns", "Fumbles.Lost", "Receptions", "Receiving.Yards", "Receiving.Touchdowns", "Fantasy.Points", "FGM.XP", "Field.Goals.Made", "Field.Goals.Missed")}
+
 if(week > 0){colnames(projections_FantasySharks) <- c("Projected.Rank", "FantasySharks.ID", "Player", "Position", "Team", "Opponent", "Completions", "Passing.Yards", "Passing.Touchdowns", "Interceptions", "Carries", 
                                                       "Rushing.Yards", "Rushing.Touchdowns", "Receptions", "Receiving.Yards", "Receiving.Touchdowns", "Fantasy.Points", "FGM.XP", "Field.Goals.Made", "Field.Goals.Missed")}
 
@@ -44,13 +47,15 @@ projections_FantasySharks$Team <- str_replace_all(projections_FantasySharks$Team
 projections_FantasySharks$Position[is.na(projections_FantasySharks$Position)] <- "K"
 
 ### Remove Uneeded Stats
-if(week == 0){projections_FantasySharks <- projections_FantasySharks %>%
-  select(-Projected.Rank, -Average.Draft.Position, - Average.Auction.Value, -FantasySharks.ID, -Fantasy.Points, -Bye)}
+if(week == 0 & length(projections_FantasySharks) == 24){projections_FantasySharks <- projections_FantasySharks %>%
+  select(-Projected.Rank, -Average.Draft.Position, - Average.Auction.Value, -FantasySharks.ID, -Fantasy.Points)}
+if(week == 0 & length(projections_FantasySharks) == 23){projections_FantasySharks <- projections_FantasySharks %>%
+  select(-Projected.Rank, -Average.Draft.Position, -FantasySharks.ID, -Fantasy.Points)}
 if(week > 0){projections_FantasySharks <- projections_FantasySharks %>%
   select(-Projected.Rank, -FantasySharks.ID, -Fantasy.Points)}
 
 ### Change to Numerics
-projections_FantasySharks[,5:18] <- as.numeric(unlist(projections_FantasySharks[,5:18]))
+projections_FantasySharks[,5:19] <- as.numeric(unlist(projections_FantasySharks[,5:19]))
 
 ### Save
 assign(paste0("FantasySharks_Projections"), projections_FantasySharks)

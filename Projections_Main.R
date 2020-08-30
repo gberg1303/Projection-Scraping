@@ -12,7 +12,7 @@ library(lpSolveAPI)
 
 ### Create the main function.
     # Week = 0 Implies the Preseason Draft Rankikngs
-Fantasy_Football_Projections <- function(sources = c("CBS", "ESPN", "FantasySharks", "Sleeper", "Yahoo", "FantasyPros", "NFL"), Week, Season, Scoring = c("PPR", "Standard", "Half", "Custom"), VOR = c("Standard", "Custom"), MaxBid = FALSE, Keep.Platform.Projections = FALSE, Proper.Floors = FALSE,
+Fantasy_Football_Projections <- function(sources = c("CBS", "ESPN", "FantasySharks", "Sleeper", "Yahoo", "FantasyPros", "NFL"), Week, Season, Scoring = c("PPR", "Standard", "Half", "Custom"), VOR = VOR, MaxBid = FALSE, Keep.Platform.Projections = FALSE, Proper.Floors = FALSE,
                                          Predictions = FALSE) {
   
 ### Set Week and Season and Scoring Setting
