@@ -68,7 +68,6 @@ source(paste0(getwd(), '/File Management/Finalize Projections.R'), echo=TRUE)
 
 ### Create Projections
 if(Predictions == TRUE & week == 0){source(paste0(getwd(), '/Calculations/Odds Prediction.R'))}
-if(Predictions == TRUE & week == 0 & sources != "ESPN"){source(paste0(getwd(), '/Calculations/Odds Prediction.R'))}
 
 ### Remove the Extras
 source(paste0(getwd(), '/File Management/Remove Values.R'), echo=TRUE)
