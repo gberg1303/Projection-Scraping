@@ -8,6 +8,7 @@ Average_Fantasy_Projections[which(Average.Fantasy.Points > Ceiling.Fantasy.Point
 Fantasy_Projections <- Average_Fantasy_Projections
 Fantasy_Projections[is.na(Fantasy_Projections)] <- 0
 Fantasy_Projections <- as.data.table(Fantasy_Projections)
+if(sources != "ESPN"){Fantasy_Projections <- Fantasy_Projections %>% mutate(id = NA, Average.Auction.Value = NA, Cost = NA, Average.Draft.Position = NA)}
 ifelse(MaxBid == TRUE,
   Fantasy_Projections <- Fantasy_Projections %>%
     mutate(Opportunities = (Pass.Attempts + Carries + Targets), 

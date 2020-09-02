@@ -18,10 +18,10 @@ dstReplacements <- 1
 
 #### Ben's Custom
 if(VOR == "Ben"){
-  qbReplacements <- 28
-  rbReplacements <- 42
-  wrReplacements <- 42
-  teReplacements <- 7
+  qbReplacements <- 24
+  rbReplacements <- 30
+  wrReplacements <- 36
+  teReplacements <- 12
   kReplacements <- 0
   dstReplacements <- 0
 }

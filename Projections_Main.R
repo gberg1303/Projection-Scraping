@@ -28,7 +28,7 @@ Fantasy_Football_Projections <- function(sources = c("CBS", "ESPN", "FantasyShar
   
 ### Source the Projection Files
   ifelse(sources == "CBS", source(paste0(getwd(), '/Scraping Scripts/CBS Projections v1.R'), echo=TRUE), print(sources))
-  ifelse(sources == "ESPN" | Proper.Floors == TRUE, source(paste0(getwd(), '/Scraping Scripts/ESPN Projections v1.R'), echo=TRUE), print(sources))
+  ifelse(sources == "ESPN" | Proper.Floors == TRUE, source(paste0(getwd(), '/Scraping Scripts/ESPN Projections v2.R'), echo=TRUE), print(sources))
   ifelse(sources == "FantasySharks", source(paste0(getwd(), '/Scraping Scripts/FantasySharks Projections v1.R'), echo=TRUE), print(sources))
   ifelse(sources == "Sleeper", source(paste0(getwd(), '/Scraping Scripts/Sleeper Projections v1.R'), echo=TRUE), print(sources))
   ifelse(sources == "Yahoo", source(paste0(getwd(), '/Scraping Scripts/Yahoo Projections v1.R'), echo=TRUE), print(sources))
@@ -53,7 +53,7 @@ source(paste0(getwd(), '/Calculations/Average Projections.R'), echo=TRUE)
 source(paste0(getwd(), '/Calculations/Average Fantasy Points.R'), echo=TRUE)
 source(paste0(getwd(), '/Calculations/Risk.R'), echo=TRUE)
 source(paste0(getwd(), '/Calculations/Value Over Replacement.R'), echo=TRUE)
-source(paste0(getwd(), '/Calculations/Cost.R'), echo=TRUE)
+ifelse(sources == "ESPN", source(paste0(getwd(), '/Calculations/Cost.R'), echo=TRUE), print(sources))
 source(paste0(getwd(), '/Calculations/Tiers.R'), echo=TRUE)
 source(paste0(getwd(), '/Calculations/Dropoff.R'), echo=TRUE)
   
@@ -68,6 +68,7 @@ source(paste0(getwd(), '/File Management/Finalize Projections.R'), echo=TRUE)
 
 ### Create Projections
 if(Predictions == TRUE & week == 0){source(paste0(getwd(), '/Calculations/Odds Prediction.R'))}
+if(Predictions == TRUE & week == 0 & sources != "ESPN"){source(paste0(getwd(), '/Calculations/Odds Prediction.R'))}
 
 ### Remove the Extras
 source(paste0(getwd(), '/File Management/Remove Values.R'), echo=TRUE)
