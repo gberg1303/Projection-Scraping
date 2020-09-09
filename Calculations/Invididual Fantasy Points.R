@@ -1,6 +1,8 @@
 library(tidyverse)
 
-### Make NA's Zero
+### Make NA's Zero and Ensure Combined projections are numeric
+Combined_Projections <- Combined_Projections %>% 
+  mutate_at(vars(-Platform, -Player, -Team, -Position, -Opponent), funs(as.numeric(as.character(.))))
 Fantasy_Points <- Combined_Projections
 Fantasy_Points[is.na(Fantasy_Points)] <- 0
 

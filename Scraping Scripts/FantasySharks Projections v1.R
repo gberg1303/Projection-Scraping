@@ -55,7 +55,10 @@ if(week > 0){projections_FantasySharks <- projections_FantasySharks %>%
   select(-Projected.Rank, -FantasySharks.ID, -Fantasy.Points)}
 
 ### Change to Numerics
-projections_FantasySharks[,5:19] <- as.numeric(unlist(projections_FantasySharks[,5:19]))
+projections_FantasySharks <- projections_FantasySharks %>% 
+  group_by(Platform, Player, Team, Position, Opponent) %>%
+  mutate_all(funs(as.numeric(as.character(.)))) %>%
+  ungroup()
 
 ### Save
 assign(paste0("FantasySharks_Projections"), projections_FantasySharks)

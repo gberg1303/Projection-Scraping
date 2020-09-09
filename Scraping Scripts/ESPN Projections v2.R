@@ -3,6 +3,7 @@ library(data.table)
 library(tidyverse)
 library(gtools)
 library(stringr)
+library(httr)
 
 ### Set Week
 if(week == 0){week_no <- paste0(10, season)}
@@ -10,33 +11,39 @@ if(week > 0){week_no <- paste0(11, season, week)}
 #if(week == 000){week_no <- paste0(00, season)}
 
 ### Get Player
-ESPN_JSON <- jsonlite::read_json(paste0("https://fantasy.espn.com/apis/v3/games/ffl/seasons/", season, "/segments/0/leaguedefaults/?view=kona_player_info"))[[1]]
+ESPN_JSON <- tryCatch(jsonlite::read_json(paste0("https://fantasy.espn.com/apis/v3/games/ffl/seasons/", season, "/segments/0/leaguedefaults/?view=kona_player_info"))[[1]], error = function(x){
+  content(GET(paste0("https://fantasy.espn.com/apis/v3/games/ffl/seasons/", season, "/segments/0/leaguedefaults/?view=kona_player_info")),as="parsed")[[1]]
+})
 
 
 ### Put Important Information Together
-ESPN_Projections <- purrr::map_df(1:length(ESPN_JSON[["players"]]), function(x)
+ESPN_Projections <- purrr::map_df(1:length(ESPN_JSON[["players"]]), function(x){
+  paste(x)
               ESPN_Projections <- data.frame(
                 "Platform" = c("ESPN"),
                 "id" = ESPN_JSON[["players"]][[x]][["id"]],
                 "Player" = ESPN_JSON[["players"]][[x]][["player"]][["fullName"]],
                 "Team ID" = ESPN_JSON[["players"]][[x]][["player"]][["proTeamId"]],
                 "Position ID" = ESPN_JSON[["players"]][[x]][["player"]][["defaultPositionId"]],
-                "Auction Value" = ESPN_JSON[["players"]][[x]][["player"]][["draftRanksByRankType"]][["PPR"]][["auctionValue"]],
-                "Average Auction Value" = round(ESPN_JSON[["players"]][[x]][["player"]][["ownership"]][["auctionValueAverage"]], 2),
-                "Average Draft Position" = ESPN_JSON[["players"]][[x]][["player"]][["ownership"]][["averageDraftPosition"]]
-              )
+                "Auction Value" = ifelse(!is.null(ESPN_JSON[["players"]][[x]][["player"]][["draftRanksByRankType"]][["PPR"]][["auctionValue"]]), ESPN_JSON[["players"]][[x]][["player"]][["draftRanksByRankType"]][["PPR"]][["auctionValue"]], NA),
+                "Average Auction Value" = ifelse(!is.null(ESPN_JSON[["players"]][[x]][["player"]][["ownership"]][["auctionValueAverage"]]), round(ESPN_JSON[["players"]][[x]][["player"]][["ownership"]][["auctionValueAverage"]], 2), NA),
+                "Average Draft Position" = ifelse(!is.null(ESPN_JSON[["players"]][[x]][["player"]][["ownership"]][["averageDraftPosition"]]), ESPN_JSON[["players"]][[x]][["player"]][["ownership"]][["averageDraftPosition"]], NA)
+              )}
   
 )
 
 ### Unlist Projections and Map Data Frames
-espn_stat_projections_player <- purrr::map_df(1:length(ESPN_JSON[["players"]]), function(x)
+espn_stat_projections_player <- purrr::map_df(1:length(ESPN_JSON[["players"]]), function(x){
+  stats <- NA
+  if(!is.null((ESPN_JSON[["players"]][[x]][["player"]][["stats"]]))){
               map_df(1:length(ESPN_JSON[["players"]][[x]][["player"]][["stats"]]), function (y){
                 if(ESPN_JSON[["players"]][[x]][["player"]][["stats"]][[y]][["id"]] == week_no){stats <- ESPN_JSON[["players"]][[x]][["player"]][["stats"]][[y]][["stats"]] %>% 
                   as_tibble() %>%
                   mutate(id = ESPN_JSON[["players"]][[x]][["player"]][["id"]])}
-                
+              
                 })
-              )
+              }
+  })
 
 
 ### Put Important Information Together

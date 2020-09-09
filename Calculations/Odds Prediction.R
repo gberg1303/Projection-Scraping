@@ -217,7 +217,7 @@ Player_Predictions <- Player_Predictions %>%
   select(Player, Team, Position, Projection_Type, Projection) %>%
   unique() %>%
   reshape2::dcast(Player + Team + Position ~ Projection_Type, value.var="Projection") %>%
-  merge(x = ., y = Preseason_Projections %>% select(Player, Team, Position, Average.Draft.Position, Average.Auction.Value, Cost, Bye, Position.Rank, Tier, Dropoff, Opportunities, Touches, VoR), by = c("Player", "Team", "Position"), all.x = TRUE) %>%
+  merge(x = ., y = Preseason_Projections %>% select(Player, Team, Risk, Position, Average.Draft.Position, Average.Auction.Value, Cost, Bye, Position.Rank, Tier, Dropoff, Opportunities, Touches, VoR), by = c("Player", "Team", "Position"), all.x = TRUE) %>%
   mutate(Bin = case_when(
     Position.Rank %in% 1:12 & Position == "WR" | Position.Rank %in% 1:12 & Position ==  "RB" ~ "1:12",
     Position.Rank %in% 1:5 & Position == "QB" | Position.Rank %in% 1:5 & Position ==  "TE" ~ "1:12",
@@ -239,7 +239,7 @@ Player_Predictions <- Player_Predictions %>%
   mutate(Expected.Boom.VoR = ifelse(Position == "WR" | Position ==  "RB", boom.vor*(Finished.Top.15+Finished.Top.10)/2, boom.vor*(Finished.Top.5))) %>%
   select(Player, Team, Position, Average.Draft.Position, Average.Auction.Value, Cost, Bye, Position.Rank, Tier, Dropoff, Opportunities, Touches, VoR, Expected.Boom.VoR,
          Finished.Top.5, Finished.Top.10, Finished.Top.15, Finished.Top.20, Finished.Top.25, Finished.Top.30, Finished.Top.35, Finished.Top.40,
-         Finished.1.5, Finished.6.10, Finished.11.15, Finished.16.20, Finished.21.25, Finished.26.30, Finished.31.35, Finished.36.40, Finished.Above.40) %>%
+         Finished.1.5, Finished.6.10, Finished.11.15, Finished.16.20, Finished.21.25, Finished.26.30, Finished.31.35, Finished.36.40, Finished.Above.40, Risk) %>%
   mutate_if(is.numeric, round, 2)
 
 

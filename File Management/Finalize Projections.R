@@ -3,6 +3,9 @@ Average_Fantasy_Projections <- as.data.table(Average_Fantasy_Projections)
 Average_Fantasy_Projections[which(Average.Fantasy.Points > Ceiling.Fantasy.Points), Average.Fantasy.Points := (Ceiling.Fantasy.Points + Floor.Fantasy.Points)/2]
 Average_Fantasy_Projections[which(Average.Fantasy.Points > Ceiling.Fantasy.Points), VoR := (Ceiling.VoR + Floor.VoR)/2]
 
+### Add NAs if there is none
+if(is.null(Average_Fantasy_Projections$Bye)){Average_Fantasy_Projections <- Average_Fantasy_Projections %>% mutate(Bye = NA)}
+if(is.null(Average_Fantasy_Projections$Games.Played)){Average_Fantasy_Projections <- Average_Fantasy_Projections %>% mutate(Games.Played = NA)}
 
 ### Drop Unimportant Columns and Add Some Other Better Metrics
 Fantasy_Projections <- Average_Fantasy_Projections
